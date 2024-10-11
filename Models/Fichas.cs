@@ -1,12 +1,21 @@
-﻿namespace texasgym_backend.Models
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace texasgym_backend.Models
 {
-    public class Fichas
+    public class Ficha
     {
+        [Key]
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Repeticao { get; set; }
-        public string Descanso { get; set; }
-        public int Peso { get; set; }
+
+        [Required]
+        [ForeignKey("Usuario")]
+        public int UsuarioId { get; set; }
+        public Usuario Usuario { get; set; }
+
+        public DateTime DataCriacao { get; set; } = DateTime.Now;
+
         public string Observacao { get; set; }
     }
 }

@@ -1,103 +1,104 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
-using texasgym_backend.Data;
+using texasgym_backend.Models;
 
-namespace texasgym_backend.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class FichasController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class FichasController : ControllerBase
+    private readonly AppDbContext _context;
+
+    public FichasController(AppDbContext context)
     {
-        private readonly AppDbContext _context;
+        _context = context;
+    }
 
-        public FichasController(AppDbContext context)
+    // Obter todas as fichas
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Ficha>>> GetFichas()
+    {
+        return await _context.Fichas.ToListAsync();
+    }
+
+    // Obter ficha por ID
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Ficha>> GetFicha(int id)
+    {
+        var ficha = await _context.Fichas.FindAsync(id);
+
+        if (ficha == null)
         {
-            _context = context;
+            return NotFound();
         }
 
-        // GET: api/Fichas
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Fichas>>> GetFichas()
+        return ficha;
+    }
+
+    // Criar nova ficha
+    [HttpPost]
+    public async Task<ActionResult<Ficha>> CriarFicha(Ficha ficha)
+    {
+        // Verificar se o usuário existe
+        var usuario = await _context.Usuarios.FindAsync(ficha.UsuarioId);
+        if (usuario == null)
         {
-            return await _context.Fichas.ToListAsync();
+            return NotFound("Usuário não encontrado.");
         }
 
-        // GET: api/Fichas/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Fichas>> GetFicha(int id)
-        {
-            var ficha = await _context.Fichas.FindAsync(id);
+        _context.Fichas.Add(ficha);
+        await _context.SaveChangesAsync();
 
-            if (ficha == null)
+        return CreatedAtAction(nameof(GetFicha), new { id = ficha.Id }, ficha);
+    }
+
+    // Atualizar ficha existente
+    [HttpPut("{id}")]
+    public async Task<IActionResult> AtualizarFicha(int id, Ficha fichaAtualizada)
+    {
+        if (id != fichaAtualizada.Id)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(fichaAtualizada).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!FichaExists(id))
             {
                 return NotFound();
             }
-
-            return ficha;
-        }
-
-        // POST: api/Fichas
-        [HttpPost]
-        public async Task<ActionResult<Fichas>> PostFicha(Fichas ficha)
-        {
-            _context.Fichas.Add(ficha);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetFicha), new { id = ficha.Id }, ficha);
-        }
-
-        // PUT: api/Fichas/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFicha(int id, Fichas ficha)
-        {
-            if (id != ficha.Id)
+            else
             {
-                return BadRequest();
+                throw;
             }
-
-            _context.Entry(ficha).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FichaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
-        // DELETE: api/Fichas/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFicha(int id)
+        return NoContent();
+    }
+
+    // Deletar ficha
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeletarFicha(int id)
+    {
+        var ficha = await _context.Fichas.FindAsync(id);
+        if (ficha == null)
         {
-            var ficha = await _context.Fichas.FindAsync(id);
-            if (ficha == null)
-            {
-                return NotFound();
-            }
-
-            _context.Fichas.Remove(ficha);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return NotFound();
         }
 
-        private bool FichaExists(int id)
-        {
-            return _context.Fichas.Any(e => e.Id == id);
-        }
+        _context.Fichas.Remove(ficha);
+        await _context.SaveChangesAsync();
+
+        return Ok("Ficha deletada com sucesso.");
+    }
+
+    private bool FichaExists(int id)
+    {
+        return _context.Fichas.Any(e => e.Id == id);
     }
 }
