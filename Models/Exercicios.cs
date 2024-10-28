@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace texasgym_backend.Models
 {
@@ -8,24 +9,17 @@ namespace texasgym_backend.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [ForeignKey("Ficha")]
-        public int FichaId { get; set; }
-        public Ficha Ficha { get; set; }
-
-        [Required]
-        [StringLength(100)]
+        [Required, StringLength(100)]
+        [Column ("nome")]
         public string Nome { get; set; }
+        [Column ("descricao")]
+        public string? Descricao { get; set; }
 
-        [Required]
-        public int Repeticoes { get; set; }
+        [StringLength(255)]
+        [Column ("link_youtube")]
+        public string? LinkYoutube { get; set; }
 
-        public string DiasTreino { get; set; }
-
-        public decimal? PesoUsado { get; set; }
-
-        public int? TempoDescanso { get; set; }
-
-        public string Observacao { get; set; }
+        [JsonIgnore]
+        public ICollection<Treino>? Treinos { get; set; }
     }
 }

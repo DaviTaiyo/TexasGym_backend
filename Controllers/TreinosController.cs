@@ -36,7 +36,7 @@ public class TreinosController : ControllerBase
 
     // Criar novo treino
     [HttpPost]
-    public async Task<ActionResult<Treino>> CriarTreino(Treino treino)
+    public async Task<IActionResult> CriarTreino([FromBody] Treino treino)
     {
         _context.Treinos.Add(treino);
         await _context.SaveChangesAsync();

@@ -24,5 +24,8 @@ namespace texasgym_backend.Models
         [Column("observacao")]
         public string Observacao { get; set; }
 
+        [JsonIgnore]
+        public ICollection<Treino>? Treinos { get; set; }
+
     }
 }

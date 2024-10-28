@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("texasgym_backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d1d9f52ed542161b053fe01ba95c4fb8dee6887")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca59ed97188ccd3c0bc86468b3d3ce4bd8f8abb1")]
 [assembly: System.Reflection.AssemblyProductAttribute("texasgym_backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("texasgym_backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

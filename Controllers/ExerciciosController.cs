@@ -1,104 +1,103 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using texasgym_backend.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-[Route("api/[controller]")]
-[ApiController]
-public class ExerciciosController : ControllerBase
+namespace texasgym_backend.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public ExerciciosController(AppDbContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ExerciciosController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly AppDbContext _context;
 
-    // Obter todos os exercícios
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Exercicio>>> GetExercicios()
-    {
-        return await _context.Exercicios.ToListAsync();
-    }
-
-    // Obter exercício por ID
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Exercicio>> GetExercicio(int id)
-    {
-        var exercicio = await _context.Exercicios.FindAsync(id);
-
-        if (exercicio == null)
+        public ExerciciosController(AppDbContext context)
         {
-            return NotFound();
+            _context = context;
         }
 
-        return exercicio;
-    }
-
-    // Criar novo exercício
-    [HttpPost]
-    public async Task<ActionResult<Exercicio>> CriarExercicio(Exercicio exercicio)
-    {
-        // Verificar se a ficha existe
-        var ficha = await _context.Fichas.FindAsync(exercicio.FichaId);
-        if (ficha == null)
+        // GET: api/Exercicios
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Exercicio>>> GetExercicios()
         {
-            return NotFound("Ficha não encontrada.");
+            var exercicios = await _context.Exercicios.ToListAsync();
+            return Ok(exercicios);
         }
 
-        _context.Exercicios.Add(exercicio);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetExercicio), new { id = exercicio.Id }, exercicio);
-    }
-
-    // Atualizar exercício existente
-    [HttpPut("{id}")]
-    public async Task<IActionResult> AtualizarExercicio(int id, Exercicio exercicioAtualizado)
-    {
-        if (id != exercicioAtualizado.Id)
+        // GET: api/Exercicios/ID
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Exercicio>> GetExercicio(int id)
         {
-            return BadRequest();
-        }
+            var exercicio = await _context.Exercicios.FirstOrDefaultAsync(e => e.Id == id);
 
-        _context.Entry(exercicioAtualizado).State = EntityState.Modified;
-
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ExercicioExists(id))
+            if (exercicio == null)
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
+
+            return exercicio;
         }
 
-        return NoContent();
-    }
-
-    // Deletar exercício
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletarExercicio(int id)
-    {
-        var exercicio = await _context.Exercicios.FindAsync(id);
-        if (exercicio == null)
+        // POST: api/Exercicios
+        [HttpPost]
+        public async Task<ActionResult<Exercicio>> PostExercicio(Exercicio exercicio)
         {
-            return NotFound();
+            _context.Exercicios.Add(exercicio);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetExercicio), new { id = exercicio.Id }, exercicio);
         }
 
-        _context.Exercicios.Remove(exercicio);
-        await _context.SaveChangesAsync();
+        // PUT: api/Exercicios/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutExercicio(int id, Exercicio exercicioAtualizado)
+        {
+            if (id != exercicioAtualizado.Id)
+            {
+                return BadRequest();
+            }
 
-        return Ok("Exercício deletado com sucesso.");
-    }
+            _context.Entry(exercicioAtualizado).State = EntityState.Modified;
 
-    private bool ExercicioExists(int id)
-    {
-        return _context.Exercicios.Any(e => e.Id == id);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ExercicioExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Exercicios/ID
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteExercicio(int id)
+        {
+            var exercicio = await _context.Exercicios.FindAsync(id);
+            if (exercicio == null)
+            {
+                return NotFound();
+            }
+
+            _context.Exercicios.Remove(exercicio);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ExercicioExists(int id)
+        {
+            return _context.Exercicios.Any(e => e.Id == id);
+        }
     }
 }

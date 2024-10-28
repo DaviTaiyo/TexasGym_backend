@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace texasgym_backend.Models
 {
@@ -34,7 +35,9 @@ namespace texasgym_backend.Models
 
         [Column("administrador")]
         public bool Administrador { get; set; } = false;
-        public ICollection<Ficha> Fichas { get; set; } = new List<Ficha>();
-        public ICollection<Medida> Medidas { get; set; } = new List<Medida>();
+        [JsonIgnore]
+        public ICollection<Ficha>? Fichas { get; set; }
+        [JsonIgnore]
+        public ICollection<Medida>? Medidas { get; set; }
     }
 }

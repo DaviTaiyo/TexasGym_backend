@@ -1,6 +1,6 @@
 [
   {
-    "ContainingType": "ExerciciosController",
+    "ContainingType": "texasgym_backend.Controllers.ExerciciosController",
     "Method": "GetExercicios",
     "RelativePath": "api/Exercicios",
     "HttpMethod": "GET",
@@ -20,8 +20,8 @@
     ]
   },
   {
-    "ContainingType": "ExerciciosController",
-    "Method": "CriarExercicio",
+    "ContainingType": "texasgym_backend.Controllers.ExerciciosController",
+    "Method": "PostExercicio",
     "RelativePath": "api/Exercicios",
     "HttpMethod": "POST",
     "IsController": true,
@@ -46,7 +46,7 @@
     ]
   },
   {
-    "ContainingType": "ExerciciosController",
+    "ContainingType": "texasgym_backend.Controllers.ExerciciosController",
     "Method": "GetExercicio",
     "RelativePath": "api/Exercicios/{id}",
     "HttpMethod": "GET",
@@ -72,8 +72,8 @@
     ]
   },
   {
-    "ContainingType": "ExerciciosController",
-    "Method": "AtualizarExercicio",
+    "ContainingType": "texasgym_backend.Controllers.ExerciciosController",
+    "Method": "PutExercicio",
     "RelativePath": "api/Exercicios/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -93,8 +93,8 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "ExerciciosController",
-    "Method": "DeletarExercicio",
+    "ContainingType": "texasgym_backend.Controllers.ExerciciosController",
+    "Method": "DeleteExercicio",
     "RelativePath": "api/Exercicios/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -307,6 +307,36 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "texasgym_backend.Controllers.RelatorioController",
+    "Method": "GetRelatorioCompleto",
+    "RelativePath": "api/Relatorio/RelatorioCompleto",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "texasgym_backend.Controllers.RelatorioController",
+    "Method": "GetRelatorioTreinosPorUsuario",
+    "RelativePath": "api/Relatorio/RelatorioTreinosPorUsuario",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "texasgym_backend.Controllers.RelatorioController",
+    "Method": "GetRelatorioUsuariosSimples",
+    "RelativePath": "api/Relatorio/RelatorioUsuariosSimples",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "TreinosController",
     "Method": "GetTreinos",
     "RelativePath": "api/Treinos",
@@ -340,17 +370,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "texasgym_backend.Models.Treino",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "TreinosController",

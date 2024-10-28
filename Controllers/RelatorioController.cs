@@ -1,94 +1,128 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using System.Threading.Tasks;
-//using texasgym_backend.Models;
-//using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
+using texasgym_backend.Models;
+using Microsoft.EntityFrameworkCore;
 
-//namespace texasgym_backend.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class RelatoriosController : ControllerBase
-//    {
-//        private readonly AppDbContext _context;
+namespace texasgym_backend.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RelatorioController : ControllerBase
+    {
+        private readonly AppDbContext _context;
 
-//        public RelatoriosController(AppDbContext context)
-//        {
-//            _context = context;
-//        }
+        public RelatorioController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-//        // Relatório: Fichas com Exercícios
-//        [HttpGet("relatorio-fichas-exercicios")]
-//        public async Task<IActionResult> RelatorioFichasExercicios()
-//        {
-//            var relatorio = await _context.Fichas
-//                .Include(f => f.Exercicios)
-//                .Select(f => new
-//                {
-//                    FichaId = f.Id,
-//                    DataCriacao = f.DataCriacao,
-//                    Observacao = f.Observacao,
-//                    Exercicios = f.Exercicios.Select(e => new
-//                    {
-//                        NomeExercicio = e.Nome,
-//                        Repeticoes = e.Repeticoes,
-//                        PesoUsado = e.PesoUsado,
-//                        TempoDescanso = e.TempoDescanso,
-//                        Observacao = e.Observacao
-//                    })
-//                })
-//                .ToListAsync();
+        // 1. Relatório Simples de Usuários
+        [HttpGet("RelatorioUsuariosSimples")]
+        public async Task<IActionResult> GetRelatorioUsuariosSimples()
+        {
+            var usuarios = await _context.Usuarios
+                .Include(u => u.Medidas)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Nome,
+                    u.Email,
+                    u.Telefone,
+                    u.CPF,
+                    Medidas = u.Medidas.Select(m => new
+                    {
+                        m.Altura,
+                        m.Peso,
+                        m.GorduraCorporal,
+                        m.DataMedida
+                    })
+                })
+                .ToListAsync();
 
-//            return Ok(relatorio);
-//        }
+            return Ok(usuarios);
+        }
 
-//        // Relatório: Fichas com Treinos
-//        [HttpGet("relatorio-fichas-treinos")]
-//        public async Task<IActionResult> RelatorioFichasTreinos()
-//        {
-//            var relatorio = await _context.Fichas
-//                .Include(f => f.TreinoFichas)
-//                .ThenInclude(tf => tf.Treino)
-//                .Select(f => new
-//                {
-//                    FichaId = f.Id,
-//                    DataCriacao = f.DataCriacao,
-//                    Observacao = f.Observacao,
-//                    Treinos = f.TreinoFichas.Select(tf => new
-//                    {
-//                        TreinoId = tf.Treino.Id,
-//                        NomeTreino = tf.Treino.Nome,
-//                        DescricaoTreino = tf.Treino.Descricao,
-//                        LinkYoutube = tf.Treino.LinkYoutube
-//                    })
-//                })
-//                .ToListAsync();
+        // 2. Relatório de Treinos por Usuário
+        [HttpGet("RelatorioTreinosPorUsuario")]
+        public async Task<ActionResult> GetRelatorioTreinosPorUsuario()
+        {
+            var relatorio = await _context.Usuarios
+                .Include(u => u.Fichas)
+                .ThenInclude(f => f.Treinos)
+                .Select(u => new
+                {
+                    u.Nome,
+                    Fichas = u.Fichas.Select(f => new
+                    {
+                        f.Id,
+                        f.DataCriacao,
+                        f.Observacao,
+                        Treinos = f.Treinos.Select(t => new
+                        {
+                            t.Nome,
+                            t.Repeticoes,
+                            t.DiasTreino,
+                            t.PesoUsado,
+                            t.Observacao
+                        })
+                    })
+                })
+                .ToListAsync();
 
-//            return Ok(relatorio);
-//        }
+            return Ok(relatorio);
+        }
 
-//        // Relatório: Usuários com Medidas
-//        [HttpGet("relatorio-usuarios-medidas")]
-//        public async Task<IActionResult> RelatorioUsuariosMedidas()
-//        {
-//            var relatorio = await _context.Usuarios
-//                .Include(u => u.Medidas)
-//                .Select(u => new
-//                {
-//                    Nome = u.Nome,
-//                    CPF = u.CPF,
-//                    DataNascimento = u.DataNascimento,
-//                    Medidas = u.Medidas.Select(m => new
-//                    {
-//                        Altura = m.Altura,
-//                        Peso = m.Peso,
-//                        GorduraCorporal = m.GorduraCorporal,
-//                        DataMedida = m.DataMedida
-//                    })
-//                })
-//                .ToListAsync();
+        // 3. Relatório Completo de Usuários e Treinos
+        [HttpGet("RelatorioCompleto")]
+        public async Task<ActionResult> GetRelatorioCompleto()
+        {
+            var relatorioCompleto = await _context.Usuarios
+                .Include(u => u.Fichas)
+                    .ThenInclude(f => f.Treinos)
+                        .ThenInclude(t => t.Exercicio)
+                .Include(u => u.Medidas)
+                .Select(u => new
+                {
+                    Usuario = new
+                    {
+                        u.Nome,
+                        u.Email,
+                        u.Telefone,
+                        u.DataNascimento,
+                        u.CPF
+                    },
+                    Medidas = u.Medidas.Select(m => new
+                    {
+                        m.Altura,
+                        m.Peso,
+                        m.GorduraCorporal,
+                        m.DataMedida
+                    }),
+                    Fichas = u.Fichas.Select(f => new
+                    {
+                        f.DataCriacao,
+                        f.Observacao,
+                        Treinos = f.Treinos.Select(t => new
+                        {
+                            t.Nome,
+                            t.Repeticoes,
+                            t.DiasTreino,
+                            t.PesoUsado,
+                            t.TempoDescanso,
+                            t.Observacao,
+                            Exercicio = new
+                            {
+                                t.Exercicio.Nome,
+                                t.Exercicio.Descricao,
+                                t.Exercicio.LinkYoutube
+                            }
+                        })
+                    })
+                })
+                .ToListAsync();
 
-//            return Ok(relatorio);
-//        }
-//    }
-//}
+            return Ok(relatorioCompleto);
+        }
+    }
+}
