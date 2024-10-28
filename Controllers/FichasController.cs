@@ -36,7 +36,7 @@ public class FichasController : ControllerBase
 
     // Criar nova ficha
     [HttpPost]
-    public async Task<ActionResult<Ficha>> CriarFicha(Ficha ficha)
+    public async Task<IActionResult> CriarFicha(Ficha ficha)
     {
         // Verificar se o usuário existe
         var usuario = await _context.Usuarios.FindAsync(ficha.UsuarioId);

@@ -29,10 +29,12 @@ namespace texasgym_backend.Models
         [Required]
         public string Senha { get; set; }
 
-        [Column("eh_professor")]
-        public bool EhProfessor { get; set; } = false;
+        [Column("professor")]
+        public bool Professor { get; set; } = false;
 
-        [Column("eh_administrador")]
-        public bool EhAdministrador { get; set; } = false;
+        [Column("administrador")]
+        public bool Administrador { get; set; } = false;
+        public ICollection<Ficha> Fichas { get; set; } = new List<Ficha>();
+        public ICollection<Medida> Medidas { get; set; } = new List<Medida>();
     }
 }

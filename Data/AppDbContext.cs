@@ -9,7 +9,16 @@ public class AppDbContext : DbContext
     public DbSet<Ficha> Fichas { get; set; }
     public DbSet<Exercicio> Exercicios { get; set; }
     public DbSet<Treino> Treinos { get; set; }
-    public DbSet<TreinoFicha> TreinosFichas { get; set; }
     public DbSet<Medida> Medidas { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Ficha>()
+            .HasOne(f => f.Usuario)
+            .WithMany(u => u.Fichas)
+            .HasForeignKey(f => f.UsuarioId)
+            .IsRequired(false);
+    }
+
 
 }

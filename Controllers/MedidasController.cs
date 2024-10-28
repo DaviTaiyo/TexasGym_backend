@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -36,16 +38,18 @@ public class MedidasController : ControllerBase
 
     // Criar uma nova medida
     [HttpPost]
-    public async Task<ActionResult<Medida>> CriarMedida(Medida medida)
+    public async Task<IActionResult> CriarMedida([FromBody] Medida medida)
     {
-        // Verificar se o usuário existe antes de criar a medida
-        var usuario = await _context.Usuarios.FindAsync(medida.UsuarioId);
+        // Tentar encontrar o usuário pelo ID
+        var usuario = await _context.Usuarios
+                                    .FirstOrDefaultAsync(u => u.Id == medida.UsuarioId);
+
         if (usuario == null)
         {
             return NotFound("Usuário não encontrado.");
         }
 
-        // Definir a data da medida como a data atual, se não foi definida
+        // Definir a data da medida como a data atual, caso não seja fornecida
         if (medida.DataMedida == default)
         {
             medida.DataMedida = DateTime.Now;
@@ -57,6 +61,7 @@ public class MedidasController : ControllerBase
         return CreatedAtAction(nameof(GetMedida), new { id = medida.Id }, medida);
     }
 
+
     // Atualizar uma medida existente
     [HttpPut("{id}")]
     public async Task<IActionResult> AtualizarMedida(int id, Medida medidaAtualizada)
@@ -66,16 +71,22 @@ public class MedidasController : ControllerBase
             return BadRequest();
         }
 
-        // Verificar se a medida existe
         var medida = await _context.Medidas.FindAsync(id);
         if (medida == null)
         {
             return NotFound("Medida não encontrada.");
         }
 
+        // Atualizar os campos da medida
         medida.Altura = medidaAtualizada.Altura;
         medida.Peso = medidaAtualizada.Peso;
         medida.GorduraCorporal = medidaAtualizada.GorduraCorporal;
+
+        // Se não houver data definida, atribui a data atual
+        if (!medidaAtualizada.DataMedida.HasValue)
+        {
+            medidaAtualizada.DataMedida = DateTime.Now;
+        }
         medida.DataMedida = medidaAtualizada.DataMedida;
 
         await _context.SaveChangesAsync();

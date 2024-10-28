@@ -6,25 +6,26 @@ namespace texasgym_backend.Models
 {
     public class Medida
     {
-        [Key]
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("Usuario")]
+        [Column("Usuario_Id")]
         public int UsuarioId { get; set; }
 
-        public Usuario Usuario { get; set; }
-
-        [Range(0, 300)]
-        public decimal? Altura { get; set; }
-
-        [Range(0, 500)]
-        public decimal? Peso { get; set; }
-
-        [Range(0, 100)]
-        public decimal? GorduraCorporal { get; set; }
+        [Required]
+        [Range(0, 3)]
+        public decimal Altura { get; set; }
 
         [Required]
-        public DateTime DataMedida { get; set; }
+        [Range(0, 500)]
+        public decimal Peso { get; set; }
+
+        [Required]
+        [Range(0, 100)]
+        [Column("gordura_corporal")]
+        public decimal GorduraCorporal { get; set; }
+
+        [Column("data_medida")]
+        public DateTime? DataMedida { get; set; }
     }
 }
