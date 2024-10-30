@@ -3,6 +3,7 @@ using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace texasgym_backend.Controllers
 {
@@ -19,6 +20,7 @@ namespace texasgym_backend.Controllers
 
         // GET: api/Exercicios
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Exercicio>>> GetExercicios()
         {
             var exercicios = await _context.Exercicios.ToListAsync();
@@ -27,6 +29,7 @@ namespace texasgym_backend.Controllers
 
         // GET: api/Exercicios/ID
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Exercicio>> GetExercicio(int id)
         {
             var exercicio = await _context.Exercicios.FirstOrDefaultAsync(e => e.Id == id);
@@ -41,6 +44,7 @@ namespace texasgym_backend.Controllers
 
         // POST: api/Exercicios
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Exercicio>> PostExercicio(Exercicio exercicio)
         {
             _context.Exercicios.Add(exercicio);
@@ -51,6 +55,7 @@ namespace texasgym_backend.Controllers
 
         // PUT: api/Exercicios/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutExercicio(int id, Exercicio exercicioAtualizado)
         {
             if (id != exercicioAtualizado.Id)
@@ -81,6 +86,7 @@ namespace texasgym_backend.Controllers
 
         // DELETE: api/Exercicios/ID
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteExercicio(int id)
         {
             var exercicio = await _context.Exercicios.FindAsync(id);

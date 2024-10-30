@@ -3,6 +3,7 @@ using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -17,6 +18,7 @@ public class MedidasController : ControllerBase
 
     // Obter todas as medidas
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Medida>>> GetMedidas()
     {
         return await _context.Medidas.ToListAsync();
@@ -24,6 +26,7 @@ public class MedidasController : ControllerBase
 
     // Obter uma medida específica por ID
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Medida>> GetMedida(int id)
     {
         var medida = await _context.Medidas.FindAsync(id);
@@ -38,6 +41,7 @@ public class MedidasController : ControllerBase
 
     // Criar uma nova medida
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CriarMedida([FromBody] Medida medida)
     {
         // Tentar encontrar o usuário pelo ID
@@ -64,6 +68,7 @@ public class MedidasController : ControllerBase
 
     // Atualizar uma medida existente
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> AtualizarMedida(int id, Medida medidaAtualizada)
     {
         if (id != medidaAtualizada.Id)
@@ -96,6 +101,7 @@ public class MedidasController : ControllerBase
 
     // Deletar uma medida
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeletarMedida(int id)
     {
         var medida = await _context.Medidas.FindAsync(id);

@@ -2,13 +2,13 @@
 
 namespace texasgym_backend.DTOs
 {
-    public class LoginDTO
+    public class LoginRequest
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }  // Email obrigatório
+        public string Email { get; set; }
 
         [Required]
-        public string Senha { get; set; }  // Senha obrigatória
+        public string Senha { get; set; }
     }
 }

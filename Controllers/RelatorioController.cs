@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace texasgym_backend.Controllers
 {
@@ -19,6 +20,7 @@ namespace texasgym_backend.Controllers
 
         // 1. Relatório Simples de Usuários
         [HttpGet("RelatorioUsuariosSimples")]
+        [Authorize]
         public async Task<IActionResult> GetRelatorioUsuariosSimples()
         {
             var usuarios = await _context.Usuarios
@@ -45,6 +47,7 @@ namespace texasgym_backend.Controllers
 
         // 2. Relatório de Treinos por Usuário
         [HttpGet("RelatorioTreinosPorUsuario")]
+        [Authorize]
         public async Task<ActionResult> GetRelatorioTreinosPorUsuario()
         {
             var relatorio = await _context.Usuarios
@@ -75,6 +78,7 @@ namespace texasgym_backend.Controllers
 
         // 3. Relatório Completo de Usuários e Treinos
         [HttpGet("RelatorioCompleto")]
+        [Authorize]
         public async Task<ActionResult> GetRelatorioCompleto()
         {
             var relatorioCompleto = await _context.Usuarios

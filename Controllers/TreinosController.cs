@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using texasgym_backend.Models;
 
@@ -15,6 +16,7 @@ public class TreinosController : ControllerBase
 
     // Obter todos os treinos
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Treino>>> GetTreinos()
     {
         return await _context.Treinos.ToListAsync();
@@ -22,6 +24,7 @@ public class TreinosController : ControllerBase
 
     // Obter treino por ID
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<ActionResult<Treino>> GetTreino(int id)
     {
         var treino = await _context.Treinos.FindAsync(id);
@@ -36,6 +39,7 @@ public class TreinosController : ControllerBase
 
     // Criar novo treino
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CriarTreino([FromBody] Treino treino)
     {
         _context.Treinos.Add(treino);
@@ -46,6 +50,7 @@ public class TreinosController : ControllerBase
 
     // Atualizar treino existente
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> AtualizarTreino(int id, Treino treinoAtualizado)
     {
         if (id != treinoAtualizado.Id)
@@ -76,6 +81,7 @@ public class TreinosController : ControllerBase
 
     // Deletar treino
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeletarTreino(int id)
     {
         var treino = await _context.Treinos.FindAsync(id);

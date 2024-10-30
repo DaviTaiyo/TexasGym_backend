@@ -3,32 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\relatoriocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\relatoriocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\models\\medidas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:models\\medidas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\models\\fichas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:models\\fichas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\models\\exercicios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:models\\exercicios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\exercicioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\exercicioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\treinoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\treinoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\models\\treinos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:models\\treinos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\relatoriocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\relatoriocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\fichascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\fichascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\controllers\\medidascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:controllers\\medidascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\security\\jwtsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:security\\jwtsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|c:\\users\\davie\\source\\repos\\texasgym_backend\\texasgym_backend\\security\\jwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F13F340-DD6E-4BFA-B491-3E642FEA933B}|texasgym_backend.csproj|solutionrelative:security\\jwttokengenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,97 +50,136 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Medidas.cs",
-              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Medidas.cs",
-              "RelativeDocumentMoniker": "Models\\Medidas.cs",
-              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Medidas.cs",
-              "RelativeToolTip": "Models\\Medidas.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAjAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ExerciciosController.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\ExerciciosController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ExerciciosController.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\ExerciciosController.cs",
+              "RelativeToolTip": "Controllers\\ExerciciosController.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAywFgAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:33:36.625Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Usuario.cs",
-              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Usuario.cs",
-              "RelativeDocumentMoniker": "Models\\Usuario.cs",
-              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Usuario.cs",
-              "RelativeToolTip": "Models\\Usuario.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAIwCYAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:32:46.922Z",
+              "WhenOpened": "2024-10-30T14:26:50.835Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Exercicios.cs",
-              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Exercicios.cs",
-              "RelativeDocumentMoniker": "Models\\Exercicios.cs",
-              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Exercicios.cs",
-              "RelativeToolTip": "Models\\Exercicios.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA5AAAAAAAAAA==",
+              "Title": "FichasController.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\FichasController.cs",
+              "RelativeDocumentMoniker": "Controllers\\FichasController.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\FichasController.cs",
+              "RelativeToolTip": "Controllers\\FichasController.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAywFkAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:22:21.487Z",
+              "WhenOpened": "2024-10-30T14:51:02.64Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Fichas.cs",
-              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Fichas.cs",
-              "RelativeDocumentMoniker": "Models\\Fichas.cs",
-              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Fichas.cs",
-              "RelativeToolTip": "Models\\Fichas.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:22:10.302Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RelatorioController.cs",
-              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\RelatorioController.cs",
-              "RelativeDocumentMoniker": "Controllers\\RelatorioController.cs",
-              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\RelatorioController.cs",
-              "RelativeToolTip": "Controllers\\RelatorioController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAA2wBUAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:21:47.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "TreinosController.cs",
               "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\TreinosController.cs",
               "RelativeDocumentMoniker": "Controllers\\TreinosController.cs",
               "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\TreinosController.cs",
               "RelativeToolTip": "Controllers\\TreinosController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:09:40.516Z",
+              "WhenOpened": "2024-10-30T14:26:50.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RelatorioController.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\RelatorioController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RelatorioController.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\RelatorioController.cs",
+              "RelativeToolTip": "Controllers\\RelatorioController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAAAFAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T14:50:40.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MedidasController.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\MedidasController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MedidasController.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\MedidasController.cs",
+              "RelativeToolTip": "Controllers\\MedidasController.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAAAywGcAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T14:49:53.844Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Treinos.cs",
-              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Treinos.cs",
-              "RelativeDocumentMoniker": "Models\\Treinos.cs",
-              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Models\\Treinos.cs",
-              "RelativeToolTip": "Models\\Treinos.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAywCcAAAAUAAAAAAAAAA==",
+              "Title": "jwtSettings.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\security\\jwtSettings.cs",
+              "RelativeDocumentMoniker": "security\\jwtSettings.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\security\\jwtSettings.cs",
+              "RelativeToolTip": "security\\jwtSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T17:01:51.204Z",
+              "WhenOpened": "2024-10-30T14:28:36.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\UsuarioController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsuarioController.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Controllers\\UsuarioController.cs",
+              "RelativeToolTip": "Controllers\\UsuarioController.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAywGIAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T14:18:59.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "jwtTokenGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\security\\jwtTokenGenerator.cs",
+              "RelativeDocumentMoniker": "security\\jwtTokenGenerator.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\security\\jwtTokenGenerator.cs",
+              "RelativeToolTip": "security\\jwtTokenGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA3wCgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T14:18:31.715Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-30T14:04:46.743Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\davie\\source\\repos\\texasgym_backend\\TexasGym_backend\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-10-30T14:01:32.246Z",
               "EditorCaption": ""
             }
           ]

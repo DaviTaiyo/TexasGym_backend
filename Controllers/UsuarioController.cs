@@ -2,16 +2,21 @@
 using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using texasgym_backend.DTOs;
+using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 [Route("api/[controller]")]
 [ApiController]
 public class UsuarioController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly JwtTokenGenerator _tokenGenerator;
 
-    public UsuarioController(AppDbContext context)
+    public UsuarioController(AppDbContext context, JwtTokenGenerator? tokenGenerator)
     {
         _context = context;
+        _tokenGenerator = tokenGenerator;
     }
 
     // Criar (Registrar) um novo usuário
@@ -31,20 +36,17 @@ public class UsuarioController : ControllerBase
         return Ok("Usuário registrado com sucesso.");
     }
 
-    // Login do usuário (email, telefone ou nome com senha)
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDTO credenciais)
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        // Verificar se o email e senha correspondem a algum usuário
         var usuario = await _context.Usuarios
-            .FirstOrDefaultAsync(u => u.Email == credenciais.Email);
+            .FirstOrDefaultAsync(u => u.Email == request.Email);
 
-        if (usuario == null || !UsuarioHelper.VerificarSenha(credenciais.Senha, usuario.Senha))
-        {
-            return Unauthorized("Credenciais inválidas!");
-        }
+        if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Senha, usuario.Senha))
+            return Unauthorized("Usuário ou senha inválidos.");
 
-        return Ok("Login bem-sucedido!");
+        var token = _tokenGenerator.GenerateToken(usuario);
+        return Ok(new { Token = token });
     }
 
     // Atualizar perfil do usuário
@@ -80,6 +82,7 @@ public class UsuarioController : ControllerBase
 
     // Deletar usuário
     [HttpDelete("deletar/{id}")]
+    [Authorize]
     public async Task<IActionResult> Deletar(int id)
     {
         var usuario = await _context.Usuarios.FindAsync(id);
@@ -93,6 +96,7 @@ public class UsuarioController : ControllerBase
 
     // Listar todos os usuários
     [HttpGet("listar")]
+    [Authorize]
     public async Task<IActionResult> GetUsuarios()
     {
         // Busca todos os usuários do banco de dados

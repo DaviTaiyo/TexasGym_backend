@@ -512,8 +512,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "credenciais",
-        "Type": "texasgym_backend.DTOs.LoginDTO",
+        "Name": "request",
+        "Type": "texasgym_backend.DTOs.LoginRequest",
         "IsRequired": true
       }
     ],

@@ -167,3 +167,4 @@ C:\Users\davie\source\repos\texasgym_backend\TexasGym_backend\obj\Debug\net8.0\r
 C:\Users\davie\source\repos\texasgym_backend\TexasGym_backend\obj\Debug\net8.0\texasgym_backend.pdb
 C:\Users\davie\source\repos\texasgym_backend\TexasGym_backend\obj\Debug\net8.0\texasgym_backend.genruntimeconfig.cache
 C:\Users\davie\source\repos\texasgym_backend\TexasGym_backend\obj\Debug\net8.0\ref\texasgym_backend.dll
+C:\Users\davie\source\repos\texasgym_backend\TexasGym_backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

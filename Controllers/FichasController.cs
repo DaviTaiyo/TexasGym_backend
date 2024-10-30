@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using texasgym_backend.Models;
 
@@ -15,6 +16,7 @@ public class FichasController : ControllerBase
 
     // Obter todas as fichas
     [HttpGet]
+    [Authorize]
     public async Task<ActionResult<IEnumerable<Ficha>>> GetFichas()
     {
         return await _context.Fichas.ToListAsync();
@@ -36,6 +38,7 @@ public class FichasController : ControllerBase
 
     // Criar nova ficha
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CriarFicha(Ficha ficha)
     {
         // Verificar se o usuário existe
@@ -53,6 +56,7 @@ public class FichasController : ControllerBase
 
     // Atualizar ficha existente
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> AtualizarFicha(int id, Ficha fichaAtualizada)
     {
         if (id != fichaAtualizada.Id)
@@ -83,6 +87,7 @@ public class FichasController : ControllerBase
 
     // Deletar ficha
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeletarFicha(int id)
     {
         var ficha = await _context.Fichas.FindAsync(id);
