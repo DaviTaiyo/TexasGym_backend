@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using texasgym_backend.Data;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -23,6 +24,23 @@ public class MedidasController : ControllerBase
     {
         return await _context.Medidas.ToListAsync();
     }
+
+    [HttpGet("usuario/{userId}/latest")]
+    public async Task<ActionResult<Medida>> GetLatestMedida(int userId)
+    {
+        var medida = await _context.Medidas
+                                   .Where(m => m.UsuarioId == userId)
+                                   .OrderByDescending(m => m.DataMedida)
+                                   .FirstOrDefaultAsync();
+
+        if (medida == null)
+        {
+            return NotFound("Nenhuma medida encontrada.");
+        }
+
+        return Ok(medida);
+    }
+
 
     // Obter uma medida específica por ID
     [HttpGet("{id}")]

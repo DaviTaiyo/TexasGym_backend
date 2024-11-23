@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using texasgym_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using texasgym_backend.Data;
 
 namespace texasgym_backend.Controllers
 {

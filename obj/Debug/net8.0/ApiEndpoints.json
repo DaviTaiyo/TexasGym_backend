@@ -307,6 +307,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MedidasController",
+    "Method": "GetLatestMedida",
+    "RelativePath": "api/Medidas/usuario/{userId}/latest",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "texasgym_backend.Models.Medida",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "texasgym_backend.Controllers.RelatorioController",
     "Method": "GetRelatorioCompleto",
     "RelativePath": "api/Relatorio/RelatorioCompleto",
@@ -517,6 +543,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UsuarioController",
+    "Method": "GetCurrentUser",
+    "RelativePath": "api/Usuario/me",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

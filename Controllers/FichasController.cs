@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using texasgym_backend.Data;
 using texasgym_backend.Models;
 
 [Route("api/[controller]")]

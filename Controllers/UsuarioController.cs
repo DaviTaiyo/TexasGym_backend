@@ -5,6 +5,8 @@ using texasgym_backend.DTOs;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using texasgym_backend.Data;
+using System.Security.Claims;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -93,6 +95,40 @@ public class UsuarioController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok("Usuário deletado.");
     }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetCurrentUser()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (userId == null)
+        {
+            return Unauthorized("Token inválido.");
+        }
+
+        var usuario = await _context.Usuarios
+            .Where(u => u.Id.ToString() == userId)
+            .Select(u => new
+            {
+                u.Id,
+                u.Nome,
+                u.Email,
+                u.DataNascimento,
+                u.Telefone,
+                u.CPF,
+                u.Administrador
+            })
+            .FirstOrDefaultAsync();
+
+        if (usuario == null)
+        {
+            return NotFound("Usuário não encontrado.");
+        }
+
+        return Ok(usuario);
+    }
+
 
     // Listar todos os usuários
     [HttpGet("listar")]

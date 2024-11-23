@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using texasgym_backend.Data;
 using texasgym_backend.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurações do JWT
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-builder.Services.AddSingleton<JwtTokenGenerator>(); // Passo 1: Registra o JwtTokenGenerator
+builder.Services.AddSingleton<JwtTokenGenerator>(); // Registra o JwtTokenGenerator
 
 // Configuração de autenticação JWT
 builder.Services.AddAuthentication(options =>

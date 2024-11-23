@@ -28,7 +28,7 @@ namespace texasgym_backend.Models
         public string Telefone { get; set; }
 
         [Required]
-        public string Senha { get; set; }
+        public string? Senha { get; set; }
 
         [Column("professor")]
         public bool Professor { get; set; } = false;
