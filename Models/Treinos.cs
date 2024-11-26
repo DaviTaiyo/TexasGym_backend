@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -10,37 +11,33 @@ namespace texasgym_backend.Models
         public int Id { get; set; }
 
         [ForeignKey("Ficha")]
-        [Column ("ficha_id")]
+        [Column("ficha_id")]
         public int FichaId { get; set; }
 
-        [ForeignKey("Exercicio")]
-        [Column ("exercicios_id")]
-        public int ExerciciosId { get; set; }
-
         [Required, StringLength(100)]
-        [Column ("nome")]
+        [Column("nome")]
         public string Nome { get; set; }
 
-        [Column ("repeticoes")]
+        [Column("repeticoes")]
         public int? Repeticoes { get; set; }
 
         [StringLength(50)]
-        [Column ("dias_treino")]
+        [Column("dias_treino")]
         public string? DiasTreino { get; set; }
 
-        [Column ("peso_usado")]
+        [Column("peso")]
         public decimal? PesoUsado { get; set; }
 
-        [Column ("tempo_descanso")]
+        [Column("tempo_descanso")]
         public int? TempoDescanso { get; set; }
 
-        [Column ("observacao")]
+        [Column("observacao")]
         public string? Observacao { get; set; }
 
         [JsonIgnore]
-        public Exercicio? Exercicio { get; set; }
+        public Ficha? Ficha { get; set; }
 
         [JsonIgnore]
-        public Ficha? Ficha { get; set; }
+        public ICollection<TreinoExercicio>? TreinosExercicios { get; set; } // Relacionamento com TreinoExercicio
     }
 }

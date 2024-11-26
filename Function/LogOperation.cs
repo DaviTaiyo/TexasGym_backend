@@ -25,8 +25,6 @@ namespace texasgym_backend.Function
                 Timestamp = DateTime.Now,
                 Details = details
             };
-
-            _context.Logs.Add(log);
             await _context.SaveChangesAsync();
         }
     }

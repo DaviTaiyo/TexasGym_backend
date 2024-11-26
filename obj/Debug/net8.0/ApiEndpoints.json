@@ -109,6 +109,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "texasgym_backend.Controllers.ExerciciosController",
+    "Method": "GetExerciciosPorTreino",
+    "RelativePath": "api/Exercicios/treino/{treinoId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "treinoId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[texasgym_backend.Models.Exercicio, texasgym_backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "FichasController",
     "Method": "GetFichas",
     "RelativePath": "api/Fichas",
@@ -158,17 +184,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "texasgym_backend.Models.Ficha",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "FichasController",
@@ -206,6 +222,32 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FichasController",
+    "Method": "GetFichasPorUsuario",
+    "RelativePath": "api/Fichas/usuario/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[texasgym_backend.Models.Ficha, texasgym_backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "MedidasController",
@@ -391,8 +433,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "treino",
-        "Type": "texasgym_backend.Models.Treino",
+        "Name": "request",
+        "Type": "texasgym_backend.DTOs.CriarTreinoDto",
         "IsRequired": true
       }
     ],
@@ -412,17 +454,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "texasgym_backend.Models.Treino",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "TreinosController",
@@ -455,6 +487,22 @@
     "Parameters": [
       {
         "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "TreinosController",
+    "Method": "GetTreinosByFichaId",
+    "RelativePath": "api/Treinos/ficha/{fichaId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fichaId",
         "Type": "System.Int32",
         "IsRequired": true
       }

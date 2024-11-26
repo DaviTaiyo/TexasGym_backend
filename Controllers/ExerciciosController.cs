@@ -106,5 +106,33 @@ namespace texasgym_backend.Controllers
         {
             return _context.Exercicios.Any(e => e.Id == id);
         }
+        [HttpGet("treino/{treinoId}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<Exercicio>>> GetExerciciosPorTreino(int treinoId)
+        {
+            var exercicios = await _context.TreinoExercicios
+                .Where(te => te.TreinoId == treinoId)
+                .Include(te => te.Exercicio)
+                .Select(te => new
+                {
+                    te.Exercicio.Id,
+                    te.Exercicio.Nome,
+                    te.Exercicio.Descricao,
+                    te.Exercicio.LinkYoutube,
+                    te.Repeticoes,
+                    te.Peso,
+                    te.TempoDescanso,
+                    te.Observacao
+                })
+                .ToListAsync();
+
+            if (!exercicios.Any())
+            {
+                return NotFound("Nenhum exercício encontrado para este treino.");
+            }
+
+            return Ok(exercicios);
+        }
+
     }
 }

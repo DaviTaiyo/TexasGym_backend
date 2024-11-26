@@ -25,17 +25,67 @@ public class FichasController : ControllerBase
 
     // Obter ficha por ID
     [HttpGet("{id}")]
-    public async Task<ActionResult<Ficha>> GetFicha(int id)
+    [Authorize]
+    public async Task<ActionResult> GetFicha(int id)
     {
-        var ficha = await _context.Fichas.FindAsync(id);
+        var ficha = await _context.Fichas
+            .Include(f => f.Treinos)
+            .ThenInclude(t => t.TreinosExercicios)
+            .ThenInclude(te => te.Exercicio)
+            .FirstOrDefaultAsync(f => f.Id == id);
 
         if (ficha == null)
         {
-            return NotFound();
+            return NotFound("Ficha não encontrada.");
         }
 
-        return ficha;
+        return Ok(new
+        {
+            ficha.Id,
+            ficha.DataCriacao,
+            ficha.Observacao,
+            Treinos = ficha.Treinos.Select(t => new
+            {
+                t.Id,
+                t.Nome,
+                t.Repeticoes,
+                t.DiasTreino,
+                t.PesoUsado,
+                t.TempoDescanso,
+                t.Observacao,
+                Exercicios = t.TreinosExercicios.Select(te => new
+                {
+                    te.Exercicio.Id,
+                    te.Exercicio.Nome,
+                    te.Exercicio.Descricao,
+                    te.Exercicio.LinkYoutube,
+                    te.Repeticoes,
+                    te.Peso,
+                    te.TempoDescanso,
+                    te.Observacao
+                })
+            })
+        });
     }
+
+
+    // Obter fichas por ID do usuário
+    [HttpGet("usuario/{userId}")]
+    [Authorize]
+    public async Task<ActionResult<IEnumerable<Ficha>>> GetFichasPorUsuario(int userId)
+    {
+        var fichas = await _context.Fichas
+            .Where(f => f.UsuarioId == userId)
+            .ToListAsync();
+
+        if (fichas == null || fichas.Count == 0)
+        {
+            return NotFound("Nenhuma ficha encontrada para o usuário.");
+        }
+
+        return Ok(fichas);
+    }
+
 
     // Criar nova ficha
     [HttpPost]

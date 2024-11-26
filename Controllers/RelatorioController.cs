@@ -53,7 +53,9 @@ namespace texasgym_backend.Controllers
         {
             var relatorio = await _context.Usuarios
                 .Include(u => u.Fichas)
-                .ThenInclude(f => f.Treinos)
+                    .ThenInclude(f => f.Treinos)
+                        .ThenInclude(t => t.TreinosExercicios)
+                            .ThenInclude(te => te.Exercicio)
                 .Select(u => new
                 {
                     u.Nome,
@@ -68,7 +70,18 @@ namespace texasgym_backend.Controllers
                             t.Repeticoes,
                             t.DiasTreino,
                             t.PesoUsado,
-                            t.Observacao
+                            t.TempoDescanso,
+                            t.Observacao,
+                            Exercicios = t.TreinosExercicios.Select(te => new
+                            {
+                                te.Exercicio.Nome,
+                                te.Exercicio.Descricao,
+                                te.Exercicio.LinkYoutube,
+                                te.Repeticoes,
+                                te.Peso,
+                                te.TempoDescanso,
+                                te.Observacao
+                            })
                         })
                     })
                 })
@@ -77,7 +90,7 @@ namespace texasgym_backend.Controllers
             return Ok(relatorio);
         }
 
-        // 3. Relatório Completo de Usuários e Treinos
+        // 3. Relatório Completo de Usuários, Fichas, Treinos e Exercícios
         [HttpGet("RelatorioCompleto")]
         [Authorize]
         public async Task<ActionResult> GetRelatorioCompleto()
@@ -85,7 +98,8 @@ namespace texasgym_backend.Controllers
             var relatorioCompleto = await _context.Usuarios
                 .Include(u => u.Fichas)
                     .ThenInclude(f => f.Treinos)
-                        .ThenInclude(t => t.Exercicio)
+                        .ThenInclude(t => t.TreinosExercicios)
+                            .ThenInclude(te => te.Exercicio)
                 .Include(u => u.Medidas)
                 .Select(u => new
                 {
@@ -116,12 +130,16 @@ namespace texasgym_backend.Controllers
                             t.PesoUsado,
                             t.TempoDescanso,
                             t.Observacao,
-                            Exercicio = new
+                            Exercicios = t.TreinosExercicios.Select(te => new
                             {
-                                t.Exercicio.Nome,
-                                t.Exercicio.Descricao,
-                                t.Exercicio.LinkYoutube
-                            }
+                                te.Exercicio.Nome,
+                                te.Exercicio.Descricao,
+                                te.Exercicio.LinkYoutube,
+                                te.Repeticoes,
+                                te.Peso,
+                                te.TempoDescanso,
+                                te.Observacao
+                            })
                         })
                     })
                 })
