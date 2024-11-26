@@ -48,8 +48,15 @@ public class UsuarioController : ControllerBase
             return Unauthorized("Usuário ou senha inválidos.");
 
         var token = _tokenGenerator.GenerateToken(usuario);
-        return Ok(new { Token = token });
+
+        // Retornar o token e o campo "Professor"
+        return Ok(new
+        {
+            Token = token,
+            Professor = usuario.Professor
+        });
     }
+
 
     // Atualizar perfil do usuário
     [HttpPut("atualizar/{id}")]
@@ -117,7 +124,8 @@ public class UsuarioController : ControllerBase
                 u.DataNascimento,
                 u.Telefone,
                 u.CPF,
-                u.Administrador
+                u.Administrador,
+                u.Professor
             })
             .FirstOrDefaultAsync();
 
