@@ -60,21 +60,25 @@ public class UsuarioController : ControllerBase
 
     // Atualizar perfil do usuário
     [HttpPut("atualizar/{id}")]
-    public async Task<IActionResult> Atualizar(int id, [FromBody] Usuario dadosAtualizados)
+    public async Task<IActionResult> Atualizar(int id, [FromBody] UsuarioUpdateDTO dadosAtualizados)
     {
         var usuario = await _context.Usuarios.FindAsync(id);
         if (usuario == null)
             return NotFound("Usuário não encontrado.");
 
+        // Atualizar os campos permitidos
         usuario.Nome = dadosAtualizados.Nome;
         usuario.Email = dadosAtualizados.Email;
         usuario.Telefone = dadosAtualizados.Telefone;
         usuario.CPF = dadosAtualizados.CPF;
         usuario.DataNascimento = dadosAtualizados.DataNascimento;
+        usuario.Professor = dadosAtualizados.Professor;
 
         await _context.SaveChangesAsync();
         return Ok("Perfil atualizado.");
     }
+
+
 
     // Atualizar a senha do usuário
     [HttpPut("atualizar-senha/{id}")]
