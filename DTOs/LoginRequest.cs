@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using texasgym_backend.DTOs;
 
 namespace texasgym_backend.DTOs
 {

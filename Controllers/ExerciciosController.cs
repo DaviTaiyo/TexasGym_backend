@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using texasgym_backend.Data;
+using texasgym_backend.Function;
+using System.Linq;
 
 namespace texasgym_backend.Controllers
 {
@@ -13,10 +15,12 @@ namespace texasgym_backend.Controllers
     public class ExerciciosController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly LogFunction _logFunction;
 
-        public ExerciciosController(AppDbContext context)
+        public ExerciciosController(AppDbContext context, LogFunction logFunction)
         {
             _context = context;
+            _logFunction = logFunction;
         }
 
         // GET: api/Exercicios
@@ -37,7 +41,7 @@ namespace texasgym_backend.Controllers
 
             if (exercicio == null)
             {
-                return NotFound();
+                return NotFound("Exercício não encontrado.");
             }
 
             return exercicio;
@@ -48,10 +52,36 @@ namespace texasgym_backend.Controllers
         [Authorize]
         public async Task<ActionResult<Exercicio>> PostExercicio(Exercicio exercicio)
         {
-            _context.Exercicios.Add(exercicio);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Exercicios.Add(exercicio);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetExercicio), new { id = exercicio.Id }, exercicio);
+                // Log de criação
+                await _logFunction.LogOperation(
+                    "CREATE",
+                    "Exercicios",
+                    exercicio.Id,
+                    null, // Não está vinculado a um usuário específico
+                    "SUCCESS",
+                    $"Exercício {exercicio.Nome} criado com sucesso."
+                );
+
+                return CreatedAtAction(nameof(GetExercicio), new { id = exercicio.Id }, exercicio);
+            }
+            catch (Exception ex)
+            {
+                await _logFunction.LogOperation(
+                    "CREATE",
+                    "Exercicios",
+                    null,
+                    null,
+                    "ERROR",
+                    $"Erro ao criar exercício: {ex.Message}"
+                );
+
+                return StatusCode(500, $"Erro ao criar exercício: {ex.Message}");
+            }
         }
 
         // PUT: api/Exercicios/5
@@ -61,28 +91,57 @@ namespace texasgym_backend.Controllers
         {
             if (id != exercicioAtualizado.Id)
             {
-                return BadRequest();
+                return BadRequest("IDs não coincidem.");
             }
-
-            _context.Entry(exercicioAtualizado).State = EntityState.Modified;
 
             try
             {
+                _context.Entry(exercicioAtualizado).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+
+                // Log de atualização
+                await _logFunction.LogOperation(
+                    "UPDATE",
+                    "Exercicios",
+                    exercicioAtualizado.Id,
+                    null,
+                    "SUCCESS",
+                    $"Exercício {exercicioAtualizado.Nome} atualizado."
+                );
+
+                return NoContent();
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ExercicioExists(id))
                 {
-                    return NotFound();
+                    return NotFound("Exercício não encontrado.");
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                await _logFunction.LogOperation(
+                    "UPDATE",
+                    "Exercicios",
+                    exercicioAtualizado.Id,
+                    null,
+                    "ERROR",
+                    $"Erro de concorrência ao atualizar o exercício com ID {id}."
+                );
+
+                throw;
+            }
+            catch (Exception ex)
+            {
+                await _logFunction.LogOperation(
+                    "UPDATE",
+                    "Exercicios",
+                    exercicioAtualizado.Id,
+                    null,
+                    "ERROR",
+                    $"Erro ao atualizar exercício: {ex.Message}"
+                );
+
+                return StatusCode(500, $"Erro ao atualizar exercício: {ex.Message}");
+            }
         }
 
         // DELETE: api/Exercicios/ID
@@ -93,19 +152,42 @@ namespace texasgym_backend.Controllers
             var exercicio = await _context.Exercicios.FindAsync(id);
             if (exercicio == null)
             {
-                return NotFound();
+                return NotFound("Exercício não encontrado.");
             }
 
-            _context.Exercicios.Remove(exercicio);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Exercicios.Remove(exercicio);
+                await _context.SaveChangesAsync();
 
-            return NoContent();
+                // Log de exclusão
+                await _logFunction.LogOperation(
+                    "DELETE",
+                    "Exercicios",
+                    exercicio.Id,
+                    null,
+                    "SUCCESS",
+                    $"Exercício {exercicio.Nome} deletado."
+                );
+
+                return Ok("Exercício deletado com sucesso.");
+            }
+            catch (Exception ex)
+            {
+                await _logFunction.LogOperation(
+                    "DELETE",
+                    "Exercicios",
+                    id,
+                    null,
+                    "ERROR",
+                    $"Erro ao deletar exercício: {ex.Message}"
+                );
+
+                return StatusCode(500, $"Erro ao deletar exercício: {ex.Message}");
+            }
         }
 
-        private bool ExercicioExists(int id)
-        {
-            return _context.Exercicios.Any(e => e.Id == id);
-        }
+        // Obter exercícios por TreinoId
         [HttpGet("treino/{treinoId}")]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Exercicio>>> GetExerciciosPorTreino(int treinoId)
@@ -134,5 +216,9 @@ namespace texasgym_backend.Controllers
             return Ok(exercicios);
         }
 
+        private bool ExercicioExists(int id)
+        {
+            return _context.Exercicios.Any(e => e.Id == id);
+        }
     }
 }

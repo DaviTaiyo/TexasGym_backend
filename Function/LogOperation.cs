@@ -15,17 +15,21 @@ namespace texasgym_backend.Function
 
         public async Task LogOperation(string operationType, string tableName, int? recordId, int? userId, string status, string details = "")
         {
+            // Criação de um novo registro de log
             var log = new Log
             {
                 OperationType = operationType,
                 TableName = tableName,
-                RecordId = recordId,
-                UserId = userId,
+                RecordId = recordId ?? 0, // Use "0" caso o recordId seja nulo
+                UserId = userId ?? 0,     // Use "0" caso o userId seja nulo
                 Status = status,
                 Timestamp = DateTime.Now,
                 Details = details
             };
-            await _context.SaveChangesAsync();
+
+            // Adicionar log no banco de dados
+            _context.Logs.Add(log);
+            await _context.SaveChangesAsync(); // Salvar as alterações no banco
         }
     }
 }

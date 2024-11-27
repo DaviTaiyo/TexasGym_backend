@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using texasgym_backend.Data;
+using texasgym_backend.Function;
 using texasgym_backend.Models;
 
 [Route("api/[controller]")]
@@ -9,10 +10,12 @@ using texasgym_backend.Models;
 public class FichasController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly LogFunction _logFunction;
 
-    public FichasController(AppDbContext context)
+    public FichasController(AppDbContext context, LogFunction logFunction)
     {
         _context = context;
+        _logFunction = logFunction;
     }
 
     // Obter todas as fichas
@@ -68,7 +71,6 @@ public class FichasController : ControllerBase
         });
     }
 
-
     // Obter fichas por ID do usuário
     [HttpGet("usuario/{userId}")]
     [Authorize]
@@ -86,23 +88,47 @@ public class FichasController : ControllerBase
         return Ok(fichas);
     }
 
-
     // Criar nova ficha
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> CriarFicha(Ficha ficha)
     {
-        // Verificar se o usuário existe
         var usuario = await _context.Usuarios.FindAsync(ficha.UsuarioId);
         if (usuario == null)
         {
             return NotFound("Usuário não encontrado.");
         }
 
-        _context.Fichas.Add(ficha);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.Fichas.Add(ficha);
+            await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetFicha), new { id = ficha.Id }, ficha);
+            // Log de criação da ficha
+            await _logFunction.LogOperation(
+                "CREATE",
+                "Fichas",
+                ficha.Id,
+                ficha.UsuarioId,
+                "SUCCESS",
+                $"Ficha criada para o usuário {usuario.Nome}."
+            );
+
+            return CreatedAtAction(nameof(GetFicha), new { id = ficha.Id }, ficha);
+        }
+        catch (Exception ex)
+        {
+            await _logFunction.LogOperation(
+                "CREATE",
+                "Fichas",
+                null,
+                ficha.UsuarioId,
+                "ERROR",
+                $"Erro ao criar ficha: {ex.Message}"
+            );
+
+            return StatusCode(500, $"Erro ao criar ficha: {ex.Message}");
+        }
     }
 
     // Atualizar ficha existente
@@ -115,11 +141,22 @@ public class FichasController : ControllerBase
             return BadRequest();
         }
 
-        _context.Entry(fichaAtualizada).State = EntityState.Modified;
-
         try
         {
+            _context.Entry(fichaAtualizada).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+
+            // Log de atualização da ficha
+            await _logFunction.LogOperation(
+                "UPDATE",
+                "Fichas",
+                fichaAtualizada.Id,
+                fichaAtualizada.UsuarioId,
+                "SUCCESS",
+                $"Ficha com ID {fichaAtualizada.Id} atualizada."
+            );
+
+            return NoContent();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -127,13 +164,31 @@ public class FichasController : ControllerBase
             {
                 return NotFound();
             }
-            else
-            {
-                throw;
-            }
-        }
 
-        return NoContent();
+            await _logFunction.LogOperation(
+                "UPDATE",
+                "Fichas",
+                fichaAtualizada.Id,
+                fichaAtualizada.UsuarioId,
+                "ERROR",
+                $"Erro de concorrência ao atualizar a ficha com ID {fichaAtualizada.Id}."
+            );
+
+            throw;
+        }
+        catch (Exception ex)
+        {
+            await _logFunction.LogOperation(
+                "UPDATE",
+                "Fichas",
+                fichaAtualizada.Id,
+                fichaAtualizada.UsuarioId,
+                "ERROR",
+                $"Erro ao atualizar ficha: {ex.Message}"
+            );
+
+            return StatusCode(500, $"Erro ao atualizar ficha: {ex.Message}");
+        }
     }
 
     // Deletar ficha
@@ -147,10 +202,36 @@ public class FichasController : ControllerBase
             return NotFound();
         }
 
-        _context.Fichas.Remove(ficha);
-        await _context.SaveChangesAsync();
+        try
+        {
+            _context.Fichas.Remove(ficha);
+            await _context.SaveChangesAsync();
 
-        return Ok("Ficha deletada com sucesso.");
+            // Log de exclusão da ficha
+            await _logFunction.LogOperation(
+                "DELETE",
+                "Fichas",
+                ficha.Id,
+                ficha.UsuarioId,
+                "SUCCESS",
+                $"Ficha com ID {ficha.Id} deletada."
+            );
+
+            return Ok("Ficha deletada com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            await _logFunction.LogOperation(
+                "DELETE",
+                "Fichas",
+                ficha.Id,
+                ficha.UsuarioId,
+                "ERROR",
+                $"Erro ao deletar ficha: {ex.Message}"
+            );
+
+            return StatusCode(500, $"Erro ao deletar ficha: {ex.Message}");
+        }
     }
 
     private bool FichaExists(int id)

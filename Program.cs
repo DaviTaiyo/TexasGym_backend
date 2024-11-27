@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using texasgym_backend.Data;
+using texasgym_backend.Function;
 using texasgym_backend.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
+
+// Registra o LogFunction como um serviço Scoped
+builder.Services.AddScoped<LogFunction>();
 
 // Configuração do Swagger
 builder.Services.AddEndpointsApiExplorer();

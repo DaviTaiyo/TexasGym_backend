@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using texasgym_backend.Models;
-using Microsoft.EntityFrameworkCore;
-using texasgym_backend.DTOs;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
-using texasgym_backend.Data;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using texasgym_backend.Data;
+using texasgym_backend.Models;
+using texasgym_backend.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -21,20 +19,35 @@ public class UsuarioController : ControllerBase
         _tokenGenerator = tokenGenerator;
     }
 
-    // Criar (Registrar) um novo usuário
+    private async Task LogOperation(string operationType, string tableName, int recordId, string details)
+    {
+        var log = new texasgym_backend.Models.Log
+        {
+            OperationType = operationType,
+            TableName = tableName,
+            RecordId = recordId,
+            Status = "SUCCESS",
+            Timestamp = DateTime.Now,
+            Details = details
+        };
+
+        _context.Logs.Add(log);
+        await _context.SaveChangesAsync();
+    }
+
     [HttpPost("registrar")]
     public async Task<IActionResult> Registrar([FromBody] Usuario usuario)
     {
-        // Verificar se o email ou telefone ou CPF já existem
         if (_context.Usuarios.Any(u => u.Email == usuario.Email || u.Telefone == usuario.Telefone || u.CPF == usuario.CPF))
             return BadRequest("Email, Telefone ou CPF já registrado!");
 
-        // Hashear a senha antes de armazenar
         usuario.Senha = UsuarioHelper.GerarHashDaSenha(usuario.Senha);
 
-        // Adicionar o novo usuário ao banco
         _context.Usuarios.Add(usuario);
         await _context.SaveChangesAsync();
+
+        await LogOperation("CREATE", "usuarios", usuario.Id, $"Usuário {usuario.Nome} criado.");
+
         return Ok("Usuário registrado com sucesso.");
     }
 
@@ -49,7 +62,6 @@ public class UsuarioController : ControllerBase
 
         var token = _tokenGenerator.GenerateToken(usuario);
 
-        // Retornar o token e o campo "Professor"
         return Ok(new
         {
             Token = token,
@@ -57,8 +69,6 @@ public class UsuarioController : ControllerBase
         });
     }
 
-
-    // Atualizar perfil do usuário
     [HttpPut("atualizar/{id}")]
     public async Task<IActionResult> Atualizar(int id, [FromBody] UsuarioUpdateDTO dadosAtualizados)
     {
@@ -66,7 +76,6 @@ public class UsuarioController : ControllerBase
         if (usuario == null)
             return NotFound("Usuário não encontrado.");
 
-        // Atualizar os campos permitidos
         usuario.Nome = dadosAtualizados.Nome;
         usuario.Email = dadosAtualizados.Email;
         usuario.Telefone = dadosAtualizados.Telefone;
@@ -75,12 +84,12 @@ public class UsuarioController : ControllerBase
         usuario.Professor = dadosAtualizados.Professor;
 
         await _context.SaveChangesAsync();
+
+        await LogOperation("UPDATE", "usuarios", usuario.Id, $"Usuário {usuario.Nome} atualizado.");
+
         return Ok("Perfil atualizado.");
     }
 
-
-
-    // Atualizar a senha do usuário
     [HttpPut("atualizar-senha/{id}")]
     public async Task<IActionResult> AtualizarSenha(int id, [FromBody] string novaSenha)
     {
@@ -89,11 +98,14 @@ public class UsuarioController : ControllerBase
             return NotFound("Usuário não encontrado.");
 
         usuario.Senha = BCrypt.Net.BCrypt.HashPassword(novaSenha);
+
         await _context.SaveChangesAsync();
+
+        await LogOperation("UPDATE", "usuarios", usuario.Id, $"Senha do usuário {usuario.Nome} atualizada.");
+
         return Ok("Senha atualizada.");
     }
 
-    // Deletar usuário
     [HttpDelete("deletar/{id}")]
     [Authorize]
     public async Task<IActionResult> Deletar(int id)
@@ -104,6 +116,9 @@ public class UsuarioController : ControllerBase
 
         _context.Usuarios.Remove(usuario);
         await _context.SaveChangesAsync();
+
+        await LogOperation("DELETE", "usuarios", id, $"Usuário {usuario.Nome} deletado.");
+
         return Ok("Usuário deletado.");
     }
 
@@ -114,9 +129,7 @@ public class UsuarioController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         if (userId == null)
-        {
             return Unauthorized("Token inválido.");
-        }
 
         var usuario = await _context.Usuarios
             .Where(u => u.Id.ToString() == userId)
@@ -134,23 +147,16 @@ public class UsuarioController : ControllerBase
             .FirstOrDefaultAsync();
 
         if (usuario == null)
-        {
             return NotFound("Usuário não encontrado.");
-        }
 
         return Ok(usuario);
     }
 
-
-    // Listar todos os usuários
     [HttpGet("listar")]
     [Authorize]
     public async Task<IActionResult> GetUsuarios()
     {
-        // Busca todos os usuários do banco de dados
         var usuarios = await _context.Usuarios.ToListAsync();
-
-        // Retorna a lista de usuários
         return Ok(usuarios);
     }
 }

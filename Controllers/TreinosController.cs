@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using texasgym_backend.Data;
+using texasgym_backend.Function;
 using texasgym_backend.DTOs;
 using texasgym_backend.Models;
 
@@ -10,10 +11,12 @@ using texasgym_backend.Models;
 public class TreinosController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly LogFunction _logFunction;
 
-    public TreinosController(AppDbContext context)
+    public TreinosController(AppDbContext context, LogFunction logFunction)
     {
         _context = context;
+        _logFunction = logFunction;
     }
 
     // Obter todos os treinos
@@ -39,12 +42,6 @@ public class TreinosController : ControllerBase
             return NotFound("Treino não encontrado.");
         }
 
-        Console.WriteLine($"Treino encontrado: {treino.Id}");
-        foreach (var te in treino.TreinosExercicios)
-        {
-            Console.WriteLine($"Exercício: {te.Exercicio?.Nome}, ID: {te.ExercicioId}");
-        }
-
         return Ok(new
         {
             treino.Id,
@@ -67,6 +64,7 @@ public class TreinosController : ControllerBase
         });
     }
 
+    // Criar treino
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> CriarTreino([FromBody] CriarTreinoDto request)
@@ -75,7 +73,6 @@ public class TreinosController : ControllerBase
 
         try
         {
-            // Criar o treino principal
             var treino = new Treino
             {
                 FichaId = request.FichaId,
@@ -90,7 +87,6 @@ public class TreinosController : ControllerBase
             _context.Treinos.Add(treino);
             await _context.SaveChangesAsync();
 
-            // Criar as associações com os exercícios
             if (request.Exercicios != null && request.Exercicios.Any())
             {
                 foreach (var exercicioId in request.Exercicios)
@@ -104,46 +100,35 @@ public class TreinosController : ControllerBase
                         TempoDescanso = request.TempoDescanso,
                         Observacao = request.Observacao
                     };
-
                     _context.TreinoExercicios.Add(treinoExercicio);
                 }
 
                 await _context.SaveChangesAsync();
             }
 
-            // Confirmar a transação
             await transaction.CommitAsync();
 
-            // Retornar o resultado
-            return CreatedAtAction(nameof(GetTreino), new { id = treino.Id }, new
-            {
-                treino.Id,
-                treino.Nome,
-                treino.Repeticoes,
-                treino.DiasTreino,
-                treino.PesoUsado,
-                treino.TempoDescanso,
-                treino.Observacao,
-                Exercicios = request.Exercicios.Select(id => new { Id = id })
-            });
+            // Log da criação do treino
+            await _logFunction.LogOperation("CREATE", "Treinos", treino.Id, null, "SUCCESS", $"Treino '{treino.Nome}' criado.");
+
+            return CreatedAtAction(nameof(GetTreino), new { id = treino.Id }, treino);
         }
         catch (Exception ex)
         {
-            // Reverter a transação em caso de erro
             await transaction.RollbackAsync();
+            await _logFunction.LogOperation("CREATE", "Treinos", null, null, "ERROR", $"Erro ao criar treino: {ex.Message}");
             return StatusCode(500, $"Erro ao criar treino: {ex.Message}");
         }
     }
 
-
-    // Atualizar treino existente
+    // Atualizar treino
     [HttpPut("{id}")]
     [Authorize]
     public async Task<IActionResult> AtualizarTreino(int id, [FromBody] Treino treinoAtualizado)
     {
         if (id != treinoAtualizado.Id)
         {
-            return BadRequest();
+            return BadRequest("ID do treino não corresponde.");
         }
 
         var treino = await _context.Treinos
@@ -155,28 +140,37 @@ public class TreinosController : ControllerBase
             return NotFound("Treino não encontrado.");
         }
 
-        // Atualiza os dados do treino
-        treino.Nome = treinoAtualizado.Nome;
-        treino.Repeticoes = treinoAtualizado.Repeticoes;
-        treino.DiasTreino = treinoAtualizado.DiasTreino;
-        treino.PesoUsado = treinoAtualizado.PesoUsado;
-        treino.Observacao = treinoAtualizado.Observacao;
-
-        // Remove exercícios antigos e adiciona os novos
-        _context.TreinoExercicios.RemoveRange(treino.TreinosExercicios);
-        if (treinoAtualizado.TreinosExercicios != null)
+        try
         {
-            foreach (var novoTreinoExercicio in treinoAtualizado.TreinosExercicios)
+            treino.Nome = treinoAtualizado.Nome;
+            treino.Repeticoes = treinoAtualizado.Repeticoes;
+            treino.DiasTreino = treinoAtualizado.DiasTreino;
+            treino.PesoUsado = treinoAtualizado.PesoUsado;
+            treino.Observacao = treinoAtualizado.Observacao;
+
+            _context.TreinoExercicios.RemoveRange(treino.TreinosExercicios);
+            if (treinoAtualizado.TreinosExercicios != null)
             {
-                novoTreinoExercicio.TreinoId = treino.Id;
-                _context.TreinoExercicios.Add(novoTreinoExercicio);
+                foreach (var novoTreinoExercicio in treinoAtualizado.TreinosExercicios)
+                {
+                    novoTreinoExercicio.TreinoId = treino.Id;
+                    _context.TreinoExercicios.Add(novoTreinoExercicio);
+                }
             }
+
+            await _context.SaveChangesAsync();
+
+            // Log da atualização do treino
+            await _logFunction.LogOperation("UPDATE", "Treinos", treino.Id, null, "SUCCESS", $"Treino '{treino.Nome}' atualizado.");
+
+            return NoContent();
         }
-
-        await _context.SaveChangesAsync();
-        return NoContent();
+        catch (Exception ex)
+        {
+            await _logFunction.LogOperation("UPDATE", "Treinos", treino.Id, null, "ERROR", $"Erro ao atualizar treino: {ex.Message}");
+            return StatusCode(500, $"Erro ao atualizar treino: {ex.Message}");
+        }
     }
-
 
     // Deletar treino
     [HttpDelete("{id}")]
@@ -192,16 +186,24 @@ public class TreinosController : ControllerBase
             return NotFound("Treino não encontrado.");
         }
 
-        // Remove os exercícios associados ao treino
-        _context.TreinoExercicios.RemoveRange(treino.TreinosExercicios);
+        try
+        {
+            _context.TreinoExercicios.RemoveRange(treino.TreinosExercicios);
+            _context.Treinos.Remove(treino);
 
-        // Remove o treino
-        _context.Treinos.Remove(treino);
-        await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-        return Ok("Treino deletado com sucesso.");
+            // Log da exclusão do treino
+            await _logFunction.LogOperation("DELETE", "Treinos", treino.Id, null, "SUCCESS", $"Treino '{treino.Nome}' deletado.");
+
+            return Ok("Treino deletado com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            await _logFunction.LogOperation("DELETE", "Treinos", treino.Id, null, "ERROR", $"Erro ao deletar treino: {ex.Message}");
+            return StatusCode(500, $"Erro ao deletar treino: {ex.Message}");
+        }
     }
-
     // Obter treinos por FichaId
     [HttpGet("ficha/{fichaId}")]
     [Authorize]
@@ -232,7 +234,11 @@ public class TreinosController : ControllerBase
                 te.Exercicio.Id,
                 te.Exercicio.Nome,
                 te.Exercicio.Descricao,
-                te.Exercicio.LinkYoutube
+                te.Exercicio.LinkYoutube,
+                te.Repeticoes,
+                te.Peso,
+                te.TempoDescanso,
+                te.Observacao
             })
         });
 
